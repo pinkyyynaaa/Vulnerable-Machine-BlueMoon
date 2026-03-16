@@ -159,6 +159,7 @@ python3 -c 'import pty; pty.spwn("/bin/bash")'
 After upgrading the shell with Python, checked user ID and discovered that jerry is a member of the docker group.
 
 **Jerry to Root**
+
 After gaining access as jerry, run the ```id``` command and discovered that the user is a member of the docker group.
 
 Used the following command to verify that the alpine image was locally available:
